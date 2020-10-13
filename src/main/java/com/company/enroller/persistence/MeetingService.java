@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import com.company.enroller.model.Participant;
 import java.util.Collection;
 import org.hibernate.Transaction;
+import javax.persistence.JoinColumn;
 
 @Component("meetingService")
 public class MeetingService {
@@ -34,4 +35,11 @@ public class MeetingService {
 		transaction.commit();
 		return meeting;
 		}
+    
+    public Meeting update(Meeting meeting) {
+		Transaction transaction = this.session.beginTransaction();
+		session.update(meeting);
+		transaction.commit();
+		return meeting;
+	}
 }
