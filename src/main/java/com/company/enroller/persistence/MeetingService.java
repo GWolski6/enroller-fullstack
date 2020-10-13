@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 public class MeetingService {
 
 	Session session;
-    DatabaseConnector connector;
 
     public MeetingService() {
         session = DatabaseConnector.getInstance().getSession();
