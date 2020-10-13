@@ -2,16 +2,15 @@ package com.company.enroller.persistence;
 
 import com.company.enroller.model.Participant;
 import org.hibernate.Transaction;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
 import java.util.Collection;
 
 @Component("participantService")
 public class ParticipantService {
 
-	Session session;
     DatabaseConnector connector;
 
     @Autowired
@@ -38,12 +37,10 @@ public class ParticipantService {
         return participant;
     }
 
-    public Participant update(Participant participant) {
-		Transaction transaction = this.session.beginTransaction();
-		session.save(participant);
-		session.saveOrUpdate(participant);
-		transaction.commit();
-		return participant;
+    public void update(Participant participant) {
+        Transaction transaction = connector.getSession().beginTransaction();
+        connector.getSession().merge(participant);
+        transaction.commit();
     }
 
     public void delete(Participant participant) {
@@ -52,5 +49,4 @@ public class ParticipantService {
         transaction.commit();
     }
 
-    
 }

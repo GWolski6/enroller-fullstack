@@ -24,8 +24,7 @@ public class Meeting {
     @Column
     private String date;
 
-    @JsonIgnore
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinTable(name = "meeting_participant", joinColumns = { @JoinColumn(name = "meeting_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "participant_login") })
 	Set<Participant> participants = new HashSet<>();

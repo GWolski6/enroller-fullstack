@@ -5,7 +5,7 @@
       System do zapisów na zajęcia
     </h1>
     <div v-if="authenticatedUsername">
-      <h2>Witaj {{ authenticatedUsername }}!
+      <h2>Witaj, {{ authenticatedUsername }}!
         <a @click="logout()" class="float-right  button-outline button">Wyloguj</a>
       </h2>
       <meetings-page :username="authenticatedUsername"></meetings-page>
@@ -27,6 +27,7 @@
 
     export default {
         components: {LoginForm, MeetingsPage},
+
         data() {
             return {
                 authenticatedUsername: "",
@@ -35,8 +36,10 @@
                 isError: false
             };
         },
+
         methods: {
-            register(user) {
+            register(user)
+            {
                 this.clearMessage();
                 this.$http.post('participants', user)
                     .then(() => {
@@ -45,7 +48,9 @@
                     })
                     .catch(response => this.failure('Błąd przy zakładaniu konta. Kod odpowiedzi: ' + response.status));
             },
-            login(user) {
+
+            login(user)
+            {
                 this.clearMessage();
                 this.$http.post('tokens', user)
                     .then(response => {
@@ -54,42 +59,52 @@
                     })
                     .catch(() => this.failure('Logowanie nieudane.'));
             },
-            storeAuth(username, token) {
+
+            storeAuth(username, token)
+            {
                 this.authenticatedUsername = username;
                 Vue.http.headers.common.Authorization = 'Bearer ' + token;
                 localStorage.setItem('username', username);
                 localStorage.setItem('token', token);
             },
-            logout() {
+
+            logout()
+            {
                 this.authenticatedUsername = '';
                 delete Vue.http.headers.common.Authorization;
                 localStorage.clear();
             },
-            success(message) {
+
+            success(message)
+            {
                 this.message = message;
                 this.isError = false;
             },
-            failure(message) {
+
+            failure(message)
+            {
                 this.message = message;
                 this.isError = true;
             },
-            clearMessage() {
-                this.message = undefined;
-            }
+
+            clearMessage() {this.message = undefined;}
         },
-        mounted() {
+
+        mounted()
+        {
             const username = localStorage.getItem('username');
             const token = localStorage.getItem('token');
-            if (username && token) {
+            if (username && token)
+            {
                 this.storeAuth(username, token);
                 // if token expired or user has been deleted - logout!
                 this.$http.get(`participants/${username}`).catch(() => this.logout());
             }
         },
-        computed: {
-            loginButtonLabel() {
-                return this.registering ? 'Zarejestruj się' : 'Zaloguj się';
-            }
+
+        computed:
+        {
+            loginButtonLabel() {return this.registering ? 'Zarejestruj się' : 'Zaloguj się';}
         }
     };
 </script>
@@ -100,19 +115,23 @@
     margin: 0 auto;
   }
 
-  .logo {
+  .logo
+  {
     vertical-align: middle;
   }
 
-  .alert {
+  .alert
+  {
     padding: 10px;
     margin-bottom: 10px;
     border: 2px solid black;
-    &-success {
+    &-success
+    {
       background: lightgreen;
       border-color: darken(lightgreen, 10%);
     }
-    &-error {
+    &-error
+    {
       background: indianred;
       border-color: darken(indianred, 10%);
       color: white;
