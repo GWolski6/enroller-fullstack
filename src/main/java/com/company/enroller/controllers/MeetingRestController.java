@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.company.enroller.model.Participant;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 import java.util.Collection;
@@ -41,5 +42,17 @@ public class MeetingRestController {
 		}
 		meetingService.add(meeting);
 		return new ResponseEntity<Meeting>(meeting, HttpStatus.CREATED);
+	}
+    
+    @RequestMapping(value = "/{id}/participants", method = RequestMethod.GET)
+	public ResponseEntity<?> getMeetingParticipants(@PathVariable("id") long id) {
+		Meeting desiredMeeting = meetingService.findById(id);
+
+		if (desiredMeeting == null) { 
+			return new ResponseEntity<Meeting>(HttpStatus.NOT_FOUND);
+		}
+
+		Collection<Participant> participants = desiredMeeting.getParticipants();
+		return new ResponseEntity<Collection<Participant>>(participants, HttpStatus.OK); 
 	}
 }
