@@ -3,7 +3,7 @@
     <form @submit.prevent="addNewMeeting()" v-if="adding">
       <h3>Dodaj nowe spotkanie</h3>
       <label>Nazwa</label>
-      <input type="text" v-model="newMeeting.title">
+      <input type="text" v-model="newMeeting.name">
       <label>Opis</label>
       <textarea v-model="newMeeting.description"></textarea>
       <button>Dodaj</button>
@@ -22,27 +22,23 @@
                 error: false
             };
         },
-
-        methods:
-        {
-            addNewMeeting()
-            {
+        methods: {
+            addNewMeeting() {
                 this.error = false;
-                if (this.newMeeting.title)
-                {
+                if (this.newMeeting.name) {
                     this.$emit('added', this.newMeeting);
                     this.newMeeting = {participants: []};
                     this.adding = false;
+                } else {
+                    this.error = true;
                 }
-                else this.error = true;
             }
         }
     }
 </script>
 
 <style scoped>
-  .error
-  {
+  .error {
     color: #F00;
   }
 </style>
