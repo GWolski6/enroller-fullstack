@@ -5,7 +5,7 @@
       System do zapisów na zajęcia
     </h1>
     <div v-if="authenticatedUsername">
-      <h2>Witaj {{ authenticatedUsername }}!
+      <h2>Witaj, {{ authenticatedUsername }}!
         <a @click="logout()" class="float-right  button-outline button">Wyloguj</a>
       </h2>
       <meetings-page :username="authenticatedUsername"></meetings-page>
